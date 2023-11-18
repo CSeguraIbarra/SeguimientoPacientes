@@ -20,7 +20,7 @@ class Usuario {
         return this.email;
     }
     claveValida(clave) {
-        if (this.clave == clave) {
+        if (this.clave === clave) {
             return true;
         } else {
             return false;

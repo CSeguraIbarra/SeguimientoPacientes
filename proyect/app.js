@@ -1,6 +1,13 @@
 const { json } = require("body-parser");
 const express = require("express");
+const session = require('express-session');
 const app = express();
+
+app.use(session({
+    secret: 'K1en54b5', 
+    resave: false,
+    saveUninitialized: true
+}));
 
 //invocar al motor de plantilas
 app.set('view engine', 'ejs');
