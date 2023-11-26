@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Pacientes</div>
+    </div>
+    <div class="container">
+        <div class="content">
+            <%pacientes.forEach(function(paciente){ %>
+                <div class="content1">
+                    <%users.forEach(function(user){%>
+                        <%if(user.id==paciente.idusuario){%>
+                        <img class="imagen2" src="/images/<%=user.fotografia_path%>" alt="cargando">
+                        <%}%>
+                        <%})%>
+                            <div>
+                                <%=paciente.nombre+' '+paciente.apellidos%></div>
+                    <br>
+                    <a class="btn1" href="/paciente/tratamiento">Asignar tratamiento</a>
+                </div>
+            <%})%>
+        </div>
+    </div>
+</body>
+</html>

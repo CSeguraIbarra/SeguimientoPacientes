@@ -1,6 +1,7 @@
 const { json } = require("body-parser");
 const express = require("express");
 const session = require('express-session');
+const path = require('path');
 const app = express();
 
 app.use(session({
@@ -8,7 +9,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-
+//cargar imagenes
+app.use('/images', express.static(path.join(__dirname,'images')));
 //invocar al motor de plantilas
 app.set('view engine', 'ejs');
 

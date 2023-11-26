@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Modificar tratamiento</div>
+    </div>
+    <div class="container">
+        <div class="content3">
+            <div>
+                <table class="table1">
+                    <thead>
+                        <tr>
+                            <th>Nombre de tratamiento</th>
+                            <th>Descripcion</th>
+                            <th>Observaciones</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% tratamientos.forEach(function(tratamiento) { %>
+                            <tr>
+                                <td>
+                                    <%= tratamiento.nombre %>
+                                </td>
+                                <td>
+                                    <%= tratamiento.descripcion %>
+                                </td>
+                                <td>
+                                    <%= tratamiento.observaciones %>
+                                </td>
+                                <td>
+                                    <form action="/tratamientos/delete/<%= tratamiento.id %>" method="GET">
+                                        <button type="submit" class="btn2">Eliminar</button>
+                                    </form>
+                                    <form action="/tratamientos/edit/<%= tratamiento.id %>" method="GET">
+                                        <button type="submit" class="btn2">Modificar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

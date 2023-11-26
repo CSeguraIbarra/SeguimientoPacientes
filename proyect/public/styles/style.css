@@ -28,9 +28,16 @@ body {
 .login_box {
     margin-top: 20px;
     background-color: #D5F0E3;
-    width: 290px;
+    width: 400px;
     height: auto;
     text-align: center;
+}
+.login_box2 {
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #D5F0E3;
+    width: 1000px;
 }
 .text1{
     font-weight: bolder;
@@ -43,6 +50,14 @@ body {
     border: none;
     padding: 10px 15px;
     margin-top: 5px;
+}
+.itext2{
+    background-color:rgba(217, 217, 217, 1);
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    width: 800px;
+    height: 100px;
 }
 .login_box input::placeholder {
     color: rgba(129, 169, 171, 1);
@@ -111,10 +126,37 @@ body {
 }
 .content{
     display: flex;
-    flex-direction: row;
+    flex-direction: flex;
 }
 .content1{
     margin-right: 100px;
     margin-left: 100px;
     margin-top: 200px;
+}
+.content2{
+    background-color: #D5F0E3;
+    margin-top: 50px;
+    margin-left: 80px;
+    margin-right: 80px;
+    padding: 20px;
+}
+.content3{
+    display: flex;
+    flex-direction: column;
+}
+.imagen{
+    width: 60px; /* Ajusta el tamaño de la imagen según tus preferencias */
+    height: 50px; 
+    border-radius: 50%; /* Esto crea una imagen redonda para simular un perfil de usuario */
+    object-fit: cover; /* Ajusta la imagen para cubrir completamente el contenedor */
+    border: 2px solid #fff; /* Borde blanco para resaltar la imagen */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera para resaltar la imagen */
+}
+.imagen2{
+    width: 200px; /* Ajusta el tamaño de la imagen según tus preferencias */
+    height: 180px; 
+    border-radius: 50%; /* Esto crea una imagen redonda para simular un perfil de usuario */
+    object-fit: cover; /* Ajusta la imagen para cubrir completamente el contenedor */
+    border: 2px solid #fff; /* Borde blanco para resaltar la imagen */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera para resaltar la imagen */
 }

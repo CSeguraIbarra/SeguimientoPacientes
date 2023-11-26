@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">INTERFAZ ADMIN</div>
+    </div>
+    <div class="container">
+        <div class="content2">
+            <div class="text1">Datos del paciente</div>
+            <div>
+                <% if (usuarios && usuarios.length>0){%>
+                    <form action="/pacientes/save">
+                        <label class="text2" for="idusuario">Usuario</label>
+                        <select class="itext1" name="idusuario">
+                            <% usuarios.forEach(usuario=>{ %>
+                                <option  value="<%= usuario.id %>"><%= usuario.cuenta %></option>
+                            <% }); %>
+                        </select>
+                        <label class="text2" for="nombre">&nbsp; Nombre</label>
+                        <input class="itext1" type="text" name="nombre">
+                        <label class="text2" for="apellidos">&nbsp;Apellidos</label>
+                        <input class="itext1" type="text" name="apellidos">
+                        <label class="text2" for="fecha_nacimiento">&nbsp;Fecha de Nacimiento</label>
+                        <input class="itext1" type="date" name="fecha_nacimiento">
+                        <label class="text2" for="sexo">&nbsp;Sexo</label>
+                        <select class="itext1" name="sexo">
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                        <br><br>
+                        <label class="text2" for="telefono">&nbsp;Telefono</label>
+                        <input class="itext1" type="text" name="telefono">
+                        <label class="text2" class="text2" for="tratamiento">&nbsp;Tratamiento</label>
+                        <select class="itext1" name="idtratamiento">
+                            <% tratamientos.forEach(tratamiento=>{ %>
+                                <option value="<%= tratamiento.id %>"><%= tratamiento.nombre %></option>
+                            <% }); %>
+                        </select>
+                    </form>
+                <% } else { %>
+                        <p>No hay usuarios disponibles.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

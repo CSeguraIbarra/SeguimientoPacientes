@@ -11,50 +11,132 @@
 <body>
     <div class="header">
         <div class="title">INTERFAZ ADMIN</div>
-    </div> 
+    </div>
     <div class="container">
-        <div class="content">
-            <table class="table1">
-                <thead >
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Cuenta</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Operaciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% lista.forEach(function(usuario) { %>
+        <div class="content3">
+            <div>
+                <table class="table1">
+                    <thead>
                         <tr>
-                            <td>
-                                <%= usuario.id %>
-                            </td>
-                            <td>
-                                <%= usuario.nombre %>
-                            </td>
-                            <td>
-                                <%= usuario.cuenta %>
-                            </td>
-                            <td>
-                                <%= usuario.email %>
-                            </td>
-                            <td>
-                                <%= usuario.rol %>
-                            </td>
-                            <td>
-                                <form action="/usuarios/delete/<%= usuario.id %>" method="GET">
-                                    <button type="submit" class="btn2">Eliminar</button>
-                                </form>
-                                <form action="/usuarios/edit/<%= usuario.id %>" method="GET">
-                                    <button type="submit" class="btn2">Modificar</button>
-                                </form>
-                            </td>
+                            <th>Id</th>
+                            <th>Fotografia</th>
+                            <th>Nombre</th>
+                            <th>Cuenta</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Operaciones</th>
                         </tr>
-                        <% }); %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% lista.forEach(function(usuario) { %>
+                            <tr>
+                                <td>
+                                    <%= usuario.id %>
+                                </td>
+                                <td>
+                                    <img class="imagen" src="/images/<%= usuario.fotografia_path %>" alt="cargando">
+                                </td>
+                                <td>
+                                    <%= usuario.nombre %>
+                                </td>
+                                <td>
+                                    <%= usuario.cuenta %>
+                                </td>
+                                <td>
+                                    <%= usuario.email %>
+                                </td>
+                                <td>
+                                    <%= usuario.rol %>
+                                </td>
+                                <td>
+                                    <form action="/usuarios/delete/<%= usuario.id %>" method="GET">
+                                        <button type="submit" class="btn2">Eliminar</button>
+                                    </form>
+                                    <form action="/usuarios/edit/<%= usuario.id %>" method="GET">
+                                        <button type="submit" class="btn2">Modificar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table1">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>IdUsuario</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Especialidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% medicos.forEach(function(medico) { %>
+                            <tr>
+                                <td>
+                                    <%= medico.id %>
+                                </td>
+                                <td>
+                                    <%= medico.idusuario %>
+                                </td>
+                                <td>
+                                    <%= medico.nombre %>
+                                </td>
+                                <td>
+                                    <%= medico.apellidos %>
+                                </td>
+                                <td>
+                                    <%= medico.especialidad %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table1">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>IdUsuario</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Fecha de nacimiento</th>
+                            <th>Sexo</th>
+                            <th>Telefono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% pacientes.forEach(function(paciente) { %>
+                            <tr>
+                                <td>
+                                    <%= paciente.id %>
+                                </td>
+                                <td>
+                                    <%= paciente.idusuario %>
+                                </td>
+                                <td>
+                                    <%= paciente.nombre %>
+                                </td>
+                                <td>
+                                    <%= paciente.apellidos %>
+                                </td>
+                                <td>
+                                    <%= paciente.fecha_nacimiento %>
+                                </td>
+                                <td>
+                                    <%= paciente.sexo %>
+                                </td>
+                                <td>
+                                    <%= paciente.telefono %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <br>
     </div>

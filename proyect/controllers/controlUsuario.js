@@ -1,22 +1,71 @@
 const Usuario = require('../models/usuario.js');
+const Medico = require('../models/medico.js');// en caso de que se quiera cargar medicos por codigo
+const Paciente = require('../models/paciente.js');
+const Tratamiento = require('../models/tratamiento.js');
+const PacienteTratamiento = require('../models/pacienteTratamiento.js');
 const Database = require('../database/database.js');
 
 class ControlUsuario {
     constructor() {
-        this.usuariosBD = new Database();
+        this.db = new Database();
     }
 
+    //LIMPIAR UNA TABLA
+    limpiarTabla(nombre){
+        return this.db.clearTable(nombre);
+    }
+    //eliminar una tabla
+    eliminarTabla(nombre){
+        return this.db.deleteTable(nombre);
+    }
+    // CRUD para usuarios
     adicionarUsuario(usuario) {
-        return this.usuariosBD.addUsuario(usuario);
+        return this.db.addUsuario(usuario);
     }
 
     modificarUsuario(id, usuario) {
-        return this.usuariosBD.updateUsuario(id, usuario);
+        return this.db.updateUsuario(id, usuario);
     }
 
-    eliminarUsuario(id) {
-        return this.usuariosBD.deleteUsuario(id);
+    eliminarPaciente(id){
+        return this.bd.deletePaciente(id);
     }
+    /*eliminarUsuario(id) {
+        return this.db.deleteUsuario(id);
+    }*/
+
+    // En tu clase ControlUsuario
+    async eliminarUsuario(id) {
+            const usuario = await this.getById(id);
+
+            // Eliminar usuario principal
+            await this.db.deleteUsuario(id);
+
+            // Eliminar registros relacionados en base al rol
+            if (usuario.rol === 'medico') {
+                const medico = await this.getMedico(id);
+                if (medico) {
+                    this.eliminarMedico(medico.id);
+                }
+            } else if (usuario.rol === 'paciente') {
+                const paciente = await this.getPaciente(id);
+                if (paciente) {
+                    this.eliminarPaciente(paciente.id);
+                }
+            }
+    }
+
+    // Añadir estas funciones al ControlUsuario
+    async getMedicoByUsuarioId(idUsuario) {
+        const medicos = await this.getAllMedicos();
+        return medicos.find(medico => medico.idusuario === idUsuario);
+    }
+
+    async getPacienteByUsuarioId(idUsuario) {
+        const pacientes = await this.getAllPacientes();
+        return pacientes.find(paciente => paciente.idusuario === idUsuario);
+    }
+
 
     async accesoPermitido(cuenta, clave) {
         try {
@@ -27,7 +76,6 @@ class ControlUsuario {
             throw error;
         }
     }
-    
 
     async cargarUsuarios() {
         const usuariosData = [
@@ -46,7 +94,7 @@ class ControlUsuario {
 
     async getAllUsuarios() {
         return new Promise((resolve, reject) => {
-            this.usuariosBD.getAllUsuarios((users) => {
+            this.db.getAllUsuarios((users) => {
                 if (users) {
                     resolve(users);
                 } else {
@@ -55,6 +103,16 @@ class ControlUsuario {
             });
         });
     }
+
+    async getAllUsuariosByRol(rol) {
+        try {
+            const usuarios = await this.getAllUsuarios();
+            return usuarios.filter(u => u.rol === rol);
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
     async getById(id) {
         const usuarios = await this.getAllUsuarios();
@@ -73,6 +131,151 @@ class ControlUsuario {
     async cerrarSesion(req) {
         req.session.destroy();
     }
+
+    async getLastInsertedUserID() {
+        return this.db.getLastInsertedUserID(); 
+    }
+
+    // CRUD para médicos
+    adicionarMedico(medico) {
+        return this.db.addMedico(medico);
+    }
+
+    modificarMedico(id, medico) {
+        return this.db.updateMedico(id, medico);
+    }
+
+    eliminarMedico(id) {
+        return this.db.deleteMedico(id);
+    }
+
+    async getAllMedicos() {
+        return new Promise((resolve, reject) => {
+            this.db.getAllMedicos((medicos) => {
+                if (medicos) {
+                    resolve(medicos);
+                } else {
+                    reject(new Error("No se pudieron recuperar los médicos"));
+                }
+            });
+        });
+    }
+
+    async getMedico(idusuario) {
+        const medicos = await this.getAllMedicos();
+        const medico = medicos.find(m => m.idusuario == idusuario);
+        if (medico) {
+            return medico;
+        } else {
+            throw new Error("No se encontró el medico");
+        }
+    }
+
+    // CRUD para pacientes
+    adicionarPaciente(paciente) {
+        return this.db.addPaciente(paciente);
+    }
+
+    modificarPaciente(id, paciente) {
+        return this.db.updatePaciente(id, paciente);
+    }
+
+    eliminarPaciente(id) {
+        return this.db.deletePaciente(id);
+    }
+
+    async getAllPacientes() {
+        return new Promise((resolve, reject) => {
+            this.db.getAllPacientes((pacientes) => {
+                if (pacientes) {
+                    resolve(pacientes);
+                } else {
+                    reject(new Error("No se pudieron recuperar los pacientes"));
+                }
+            });
+        });
+    }
+    async getPaciente(idusuario) {
+        const pacientes = await this.getAllPacientes();
+        const paciente = pacientes.find(p => p.idusuario == idusuario);
+        if (paciente) {
+            return paciente;
+        } else {
+            throw new Error("No se encontró el paciente");
+        }
+    }
+
+    // CRUD para tratamientos
+    adicionarTratamiento(tratamiento) {
+        return this.db.addTratamiento(tratamiento);
+    }
+
+    modificarTratamiento(id, tratamiento) {
+        return this.db.updateTratamiento(id, tratamiento);
+    }
+
+    eliminarTratamiento(id) {
+        return this.db.deleteTratamiento(id);
+    }
+
+    async getAllTratamientos() {
+        return new Promise((resolve, reject) => {
+            this.db.getAllTratamientos((tratamientos) => {
+                if (tratamientos) {
+                    resolve(tratamientos);
+                } else {
+                    reject(new Error("No se pudieron recuperar los tratamientos"));
+                }
+            });
+        });
+    }
+
+    async getByIdTratamiento(id) {
+        const tratamientos = await this.getAllTratamientos();
+        const tratamiento = tratamientos.find(t => t.id == id);
+        if (tratamiento) {
+            return tratamiento;
+        } else {
+            throw new Error("No se encontró el usuario");
+        }
+    }
+
+    // CRUD para paciente_tratamiento
+    async adicionarPacienteTratamiento(pacienteTratamiento) {
+        return this.db.addPacienteTratamiento(pacienteTratamiento);
+    }
+
+    async getAllPacientesTratamientos() {
+        return new Promise((resolve, reject) => {
+            this.db.getAllPacientesTratamientos((pacientesTratamientos) => {
+                if (pacientesTratamientos) {
+                    resolve(pacientesTratamientos);
+                } else {
+                    reject(new Error("No se pudieron recuperar los pacientesTratamientos"));
+                }
+            });
+        });
+    }
+
+    async updatePacienteTratamiento(id, pacienteTratamiento) {
+        try {
+            await this.db.updatePacienteTratamiento(id, pacienteTratamiento);
+            console.log("Paciente_tratamiento actualizado con éxito");
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deletePacienteTratamiento(id) {
+        try {
+            await this.db.deletePacienteTratamiento(id);
+            console.log("Paciente_tratamiento eliminado con éxito");
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
 }
 
 module.exports = ControlUsuario;

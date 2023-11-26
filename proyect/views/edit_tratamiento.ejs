@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proyect</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Modificar Tratamiento</div>
+    </div>
+    <% if (tratamiento){%>
+        <div class="container">
+            <div class="login_box2">
+                <div class="text1">Modificar</div>
+                <form action="/tratamientos/save" method="post">
+                    <div>
+                        <label class="text2" for="id">Id</label><br>
+                        <input class="itext2" type="number" id="id" name="id" value="<%=tratamiento.id %>"
+                            readonly>
+                        <div>
+                            <label class="text2" for="nombre">Nombre de tratamiento</label><br>
+                            <input class="itext2" type="text" id="nombre" name="nombre"
+                                value="<%=tratamiento.nombre %>" required>
+                        </div>
+                        <div>
+                            <label class="text2" for="descripcion">Descripcion</label><br>
+                            <input class="itext2" type="text" name="descripcion" value="<%=tratamiento.descripcion %>"
+                                required>
+                        </div>
+                        <div>
+                            <label class="text2" for="observaciones">Observaciones</label><br>
+                            <input class="itext2" type="text" id="clave" name="observaciones" value="<%=tratamiento.observaciones %>"
+                                required>
+                        </div>
+                        <div><input type="submit" value="Modificar" class="btn1"></div>
+                        <br>
+                        <div><a href="/tratamientos/read" class="btn1">Cancelar</a></div>
+                </form>
+            </div>
+        </div>
+        <% }%>
+</body>
+
+</html>
