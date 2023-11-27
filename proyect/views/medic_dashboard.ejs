@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-    <div class="header">
+    <div class="header2">
         <div class="title">INTERFAZ MEDIC</div>
+        <div class="title"><a href="/usuarios/logout">Cerrar Sesion</a></div>
     </div> 
     <div class="container">
         <br>
@@ -26,7 +27,7 @@
             <div class="content1">
                 <div><img src="https://cdn-icons-png.flaticon.com/128/4519/4519729.png" alt=""></div>
                 <br>
-                <div><a class="btn1" href="/pacientes/read">Perfiles de pacientes</a></div>
+                <div><a class="btn1" href="/pacientes/read/<%=usuario.id%>">Perfiles de pacientes</a></div>
             </div>
         </div>
     </div>

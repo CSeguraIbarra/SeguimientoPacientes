@@ -25,40 +25,49 @@
                     <input type="hidden" name="idpaciente" value="<%=paciente.id%>">
                     <label class="text2" for="idtratamiento">Tratamiento: </label>
                     <select name="idtratamiento" class="itext1">
-                        <% tratamientos.forEach(tratamiento => { %>
-                            <option value="<%= tratamiento.id %>" <% if(tratamiento.id == tratamientoAsignado.idtratamiento) { %>selected <%}%> >
-                                <%= tratamiento.nombre %>
+                        <% tratamientos.forEach(tratamiento=> { %>
+                            <option value="<%= tratamiento.id %>" <%
+                                if(tratamiento.id==tratamientoAsignado.idtratamiento) { %>selected <%}%> >
+                                    <%= tratamiento.nombre %>
                             </option>
-                        <% }); %>
-                    </select>                    
+                            <% }); %>
+                    </select>
                     <label class="text2" for="idmedico">Medico: </label>
-                    <select name="idmedico" class="itext1">
-                        <% medicos.forEach(medico=> { %>
-                            <option value="<%=medico.id%>" <% if(medico.id== tratamientoAsignado.idmedico) {%>selected<%}%>>
-                                <%= medico.nombre+' '+medico.apellidos%>
-                            </option>
-                        <% });%>
-                        </select><br>
-                        <label class="text2" for="fecha_inicio">Fecha de Inicio</label>
-                        <input class="itext1" type="date" name="fecha_inicio" placeholder="" value="<%=tratamientoAsignado.fecha_inicio%>"> 
-                        <label class="text2" for="fecha_fin">Fecha de conclusion</label>
-                        <input class="itext1" type="date" name="fecha_fin" placeholder="" value="<%=tratamientoAsignado.fecha_fin%>" >
-                        <label class="text2" for="estado">Estado: </label>
-                        <select name="estado" class="itext1">
-                            <option value="programado" <% if(tratamientoAsignado.estado == "programado") { %>selected<% } %> >Programado</option>
-                            <option value="en progreso" <% if(tratamientoAsignado.estado == "en progreso") { %>selected<% } %>>En progreso</option>
-                            <option value="completado" <% if(tratamientoAsignado.estado == "completado") { %>selected<% } %>>Completado</option>
-                            <option value="cancelado" <% if(tratamientoAsignado.estado == "cancelado") { %>selected<% } %>>Cancelado</option>
-                            <option value="pendiente" <% if(tratamientoAsignado.estado == "pendiente") { %>selected<% } %>>Pendiente</option>
-                            <option value="reprogramado" <% if(tratamientoAsignado.estado == "reprogramado") { %>selected<% } %>>Reprogramado</option>
-                            <option value="no iniciado" <% if(tratamientoAsignado.estado == "no iniciado") { %>selected<% } %>>No iniciado</option>
-                        </select>
-                    </div>
-                    <div><input class="btn1" type="submit" value="Modificar Tratamiento">
-                        &nbsp;&nbsp;&nbsp;
-                    <a href="/paciente/tratamiento/read/<%=paciente.id%>" class="btn1">Cancelar</a></div>
-                </form>
-            </div>
+                    <input class="itext1" type="text" id="nombreyApellidoMedico" readonly
+                        value="<%=medico.nombre + ' ' + medico.apellidos%>">
+                    <input type="hidden" name="idmedico" value="<%=medico.id%>">
+                    <br>
+                    <label class="text2" for="fecha_inicio">Fecha de Inicio</label>
+                    <input class="itext1" type="date" name="fecha_inicio" placeholder=""
+                        value="<%=tratamientoAsignado.fecha_inicio%>">
+                    <label class="text2" for="fecha_fin">Fecha de conclusion</label>
+                    <input class="itext1" type="date" name="fecha_fin" placeholder=""
+                        value="<%=tratamientoAsignado.fecha_fin%>">
+                    <label class="text2" for="estado">Estado: </label>
+                    <select name="estado" class="itext1">
+                        <option value="programado" <% if(tratamientoAsignado.estado=="programado" ) { %>selected<% } %>
+                                >Programado</option>
+                        <option value="en progreso" <% if(tratamientoAsignado.estado=="en progreso" ) { %>selected<% }
+                                %>>En progreso</option>
+                        <option value="completado" <% if(tratamientoAsignado.estado=="completado" ) { %>selected<% } %>
+                                >Completado</option>
+                        <option value="cancelado" <% if(tratamientoAsignado.estado=="cancelado" ) { %>selected<% } %>
+                                >Cancelado</option>
+                        <option value="pendiente" <% if(tratamientoAsignado.estado=="pendiente" ) { %>selected<% } %>
+                                >Pendiente</option>
+                        <option value="reprogramado" <% if(tratamientoAsignado.estado=="reprogramado" ) { %>selected<% }
+                                %>>Reprogramado</option>
+                        <option value="no iniciado" <% if(tratamientoAsignado.estado=="no iniciado" ) { %>selected<% }
+                                %>>No iniciado</option>
+                    </select>
+                </div>
+                <div><input class="btn1" type="submit" value="Modificar Tratamiento">
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="/paciente/tratamiento/read/<%=paciente.id%>/<%=medico.id%>" class="btn1">Cancelar</a>
+                </div>
+            </form>
         </div>
+    </div>
 </body>
+
 </html>

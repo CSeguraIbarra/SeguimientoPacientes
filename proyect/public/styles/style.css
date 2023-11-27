@@ -14,6 +14,19 @@ body {
     background-color: #348F89;
     color: white;
 }
+.header2{
+    height: 100px;
+    width: 100%;
+    background-color: #348F89;
+    color: white;
+    display: flex;
+    flex-direction: row;
+
+}
+.header2 a{
+    text-decoration: none;
+    color: white;
+}
 
 .title {
     padding: 35px 25px;
@@ -159,4 +172,8 @@ body {
     object-fit: cover; /* Ajusta la imagen para cubrir completamente el contenedor */
     border: 2px solid #fff; /* Borde blanco para resaltar la imagen */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera para resaltar la imagen */
+}
+.imgatras{
+    width: 50px;
+    padding: 10px;
 }

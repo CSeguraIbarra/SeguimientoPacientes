@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="header2">
+        <div><a href="/medic/dashboard"><img class="imgatras" src="https://cdn-icons-png.flaticon.com/128/54/54623.png" alt="cargando"></a></div>
         <div class="title">Pacientes</div>
     </div>
     <div class="container">
@@ -24,10 +25,10 @@
                             <div>
                                 <%=paciente.nombre+' '+paciente.apellidos%></div>
                     <br>
-                    <form action="/paciente/tratamiento/<%=paciente.id%>" method="GET">
+                    <form action="/paciente/tratamiento/create/<%=paciente.id%>/<%=medico.id%>" method="GET">
                         <button type="submit" class="btn3">Asignar tratamiento</button>
                     </form>
-                    <form action="/paciente/tratamiento/read/<%=paciente.id%>" method="GET">
+                    <form action="/paciente/tratamiento/read/<%=paciente.id%>/<%=medico.id%>" method="GET">
                         <button type="submit" class="btn3">Ver tratamientos asignados</button>
                     </form>
                 </div>

@@ -29,11 +29,9 @@
                         <% });%>
                     </select>
                     <label class="text2" for="idmedico">Medico: </label>
-                    <select name="idmedico" class="itext1">
-                        <% medicos.forEach(medico=> { %>
-                        <option value="<%=medico.id%>"><%= medico.nombre+' '+medico.apellidos%></option>
-                        <% });%>
-                    </select><br>
+                    <input class="itext1" type="text" id="nombreyApellidoMedico" readonly
+                        value="<%=medico.nombre + ' ' + medico.apellidos%>">
+                    <input type="hidden" name="idmedico" value="<%=medico.id%>">
                     <label class="text2" for="fecha_inicio">Fecha de Inicio</label>
                     <input class="itext1" type="date" name="fecha_inicio" placeholder="">
                     <label class="text2" for="fecha_fin">Fecha de conclusion</label>
@@ -50,6 +48,8 @@
                     </select>
                 </div>
                 <div><input class="btn1" type="submit" value="Asignar Tratamiento"></div>
+                <br>
+                <div><a href="/pacientes/read/<%=medico.idusuario%>" class="btn1">Cancelar</a></div>
             </form>
             <br>
         </div>

@@ -19,6 +19,7 @@ class ControlUsuario {
         return this.db.deleteTable(nombre);
     }
     // CRUD para usuarios
+
     adicionarUsuario(usuario) {
         return this.db.addUsuario(usuario);
     }
@@ -164,6 +165,15 @@ class ControlUsuario {
     async getMedico(idusuario) {
         const medicos = await this.getAllMedicos();
         const medico = medicos.find(m => m.idusuario == idusuario);
+        if (medico) {
+            return medico;
+        } else {
+            throw new Error("No se encontró el medico");
+        }
+    }
+    async getByIdMedico(id) {
+        const medicos = await this.getAllMedicos();
+        const medico = medicos.find(m => m.id == id);
         if (medico) {
             return medico;
         } else {

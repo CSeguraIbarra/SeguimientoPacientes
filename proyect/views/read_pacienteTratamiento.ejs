@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="header2">
+        <div><a href="/pacientes/read/<%=medico.idusuario%>"><img class="imgatras" src="https://cdn-icons-png.flaticon.com/128/54/54623.png" alt="cargando"></a></div>
         <div class="title">Tratamientos asignados</div>
     </div>
     <div class="container">
@@ -55,12 +56,17 @@
                                     <%= tratamientoAsignado.estado %>
                                 </td>
                                 <td>
-                                    <form action="/paciente/tratamiento/delete/<%= tratamientoAsignado.id%>/<%=paciente.id%>" method="GET">
+                                    <form action="/paciente/tratamiento/delete/<%= tratamientoAsignado.id%>/<%=paciente.id%>/<%=medico.id%>" method="GET">
                                         <button type="submit" class="btn2">Eliminar</button>
                                     </form>
-                                    <form action="/paciente/tratamiento/edit/<%= tratamientoAsignado.id %>/<%=paciente.id%>" method="GET">
+                                    <% medicos.forEach(medico => {
+                                        if (medico.id == tratamientoAsignado.idmedico) {%>  
+                                    <form action="/paciente/tratamiento/edit/<%= tratamientoAsignado.id %>/<%=paciente.id%>/<%=medico.id%>" method="GET">
                                         <button type="submit" class="btn2">Modificar</button>
                                     </form>
+                                    <%
+                                        }
+                                    }); %>
                                 </td>
                             </tr>
                         <% }); %>
