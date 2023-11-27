@@ -14,7 +14,7 @@
     </div>
     <div class="container">
         <div class="content">
-            <%pacientes.forEach(function(paciente){ %>
+            <%pacientes.forEach(function(paciente){ %> 
                 <div class="content1">
                     <%users.forEach(function(user){%>
                         <%if(user.id==paciente.idusuario){%>
@@ -24,7 +24,12 @@
                             <div>
                                 <%=paciente.nombre+' '+paciente.apellidos%></div>
                     <br>
-                    <a class="btn1" href="/paciente/tratamiento">Asignar tratamiento</a>
+                    <form action="/paciente/tratamiento/<%=paciente.id%>" method="GET">
+                        <button type="submit" class="btn3">Asignar tratamiento</button>
+                    </form>
+                    <form action="/paciente/tratamiento/read/<%=paciente.id%>" method="GET">
+                        <button type="submit" class="btn3">Ver tratamientos asignados</button>
+                    </form>
                 </div>
             <%})%>
         </div>

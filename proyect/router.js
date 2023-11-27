@@ -12,7 +12,7 @@ const ctrlUsuario = new ControlUsuario();
 //ctrlUsuario.cargarUsuarios();
 //ctrlUsuario.limpiarTabla('medicos');
 //ctrlUsuario.limpiarTabla('pacientes');
-//ctrlUsuario.eliminarTabla('usuario');
+//ctrlUsuario.eliminarTabla('paciente_tratamiento');
 //const estampa = new Date();
 //const admin=new Usuario(1,'admin.png','Cristhian','kiensab5','12345','seguraibarracristhian@gmail.com','admin',estampa);
 //ctrlUsuario.adicionarUsuario(admin);
@@ -123,7 +123,7 @@ router.get('/', async (req, res) => {
         res.render("login");
     } catch (error) {
         console.error(error);
-        res.render("error"); // Renderizar una vista de error si algo sale mal
+        res.status(500).send('Error');
     }
 });
 
@@ -150,7 +150,7 @@ router.get('/usuarios/edit/:id', async (req, res) => {
 
 router.post('/usuarios/save', async (req, res) => {
     const id = req.body.id;
-    const fotografia_path=req.body.fotografia_path;
+    const fotografia_path = req.body.fotografia_path;
     const nombre = req.body.nombre;
     const apellidos = req.body.apellidos;
     const cuenta = req.body.cuenta;
@@ -162,7 +162,7 @@ router.post('/usuarios/save', async (req, res) => {
     // Adicionar usuarios
     if (id == undefined || id == 0 || id == "0") {
         // Añadir el usuario sin proporcionar el ID
-        const usuario = new Usuario(0,fotografia_path,nombre, cuenta, clave, email, rol, estampa);
+        const usuario = new Usuario(0, fotografia_path, nombre, cuenta, clave, email, rol, estampa);
         await ctrlUsuario.adicionarUsuario(usuario);
 
         // Recuperar el último ID insertado
@@ -194,13 +194,10 @@ router.get('/usuarios/delete/:id', async (req, res) => {
     const id = req.params.id;
     try {
         await ctrlUsuario.eliminarUsuario(id);
-        const results = await ctrlUsuario.getAllUsuarios();
-        const medicos = await ctrlUsuario.getAllMedicos();
-        const pacientes = await ctrlUsuario.getAllPacientes();
-        res.render('admin_dashboard', { usuario: req.session.usuario, lista: results, medicos: medicos, pacientes: pacientes });
+        res.redirect('/admin/dashboard');
     } catch (error) {
         console.error(error);
-        res.render("error"); // Renderizar una vista de error si algo sale mal
+        res.status(500).send('Error');
     }
 });
 //CRUD tratamientos
@@ -220,26 +217,30 @@ router.post('/tratamientos/save', async (req, res) => {
         res.redirect('/medic/dashboard');
     } else {
         await ctrlUsuario.modificarTratamiento(id, tratamiento);
-        const tratamientos = await ctrlUsuario.getAllTratamientos();
-        res.render('read_tratamientos', { tratamientos: tratamientos });
+        res.redirect('/tratamientos/read');
     }
 });
 
 router.get('/tratamientos/edit/:id', async (req, res) => {
     const id = req.params.id;
-    const tratamiento = await ctrlUsuario.getByIdTratamiento(id);
-    res.render("edit_tratamiento", { tratamiento: tratamiento });
+    try {
+        const tratamiento = await ctrlUsuario.getByIdTratamiento(id);
+        res.render("edit_tratamiento", { tratamiento: tratamiento });
+    }catch(error){
+        console.error(error);
+        res.status(500).send('Error');
+    }
+    
 });
 
 router.get('/tratamientos/delete/:id', async (req, res) => {
     const id = req.params.id;
     try {
         await ctrlUsuario.eliminarTratamiento(id);
-        const tratamientos = await ctrlUsuario.getAllTratamientos();
-        res.render('read_tratamientos', { tratamientos: tratamientos });
+        res.redirect('/tratamientos/read');
     } catch (error) {
         console.error(error);
-        res.render("error"); // Renderizar una vista de error si algo sale mal
+        res.status(500).send('Error');
     }
 });
 
@@ -249,8 +250,8 @@ router.get('/tratamientos/read', async (req, res) => {
         res.render('read_tratamientos', { tratamientos: tratamientos });
     } catch (error) {
         // Manejar el error adecuadamente
-        console.error('Error al obtener tratamientos:', error);
-        res.status(500).send('Error al obtener tratamientos');
+        console.error(error);
+        res.status(500).send('Error');
     }
 });
 
@@ -258,13 +259,102 @@ router.get('/tratamientos/read', async (req, res) => {
 router.get('/pacientes/read', async (req, res) => {
     try {
         const pacientes = await ctrlUsuario.getAllPacientes();
-        const usuarios= await ctrlUsuario.getAllUsuarios();
-        res.render('read_pacientes', { pacientes: pacientes,users:usuarios });
+        const usuarios = await ctrlUsuario.getAllUsuarios();
+        res.render('read_pacientes', { pacientes: pacientes, users: usuarios });
     } catch (error) {
         console.error('Error al obtener pacientes:', error);
         res.status(500).send('Error al obtener pacientes');
     }
 });
 module.exports = router;
+//asignar tratamiento 
+router.get('/paciente/tratamiento/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        //id, idpaciente, idtratamiento,idmedico , fecha_inicio, fecha_fin,estado
+        const paciente = await ctrlUsuario.getByIdPaciente(id);
+        //const usuario= await ctrlUsuario.getUserAsociado(id);
+        const medicos = await ctrlUsuario.getAllMedicos();
+        const tratamientos = await ctrlUsuario.getAllTratamientos();
+        res.render('create_pacienteTratamiento', { paciente: paciente, medicos: medicos, tratamientos: tratamientos });
+    } catch (error) {
+        console.error('Error al redirigir: ', error);
+        res.status(500).send('Error al redirigir');
+    }
+});
+router.post('/paciente/tratamiento/save', async(req,res)=>{
+    //id, idpaciente, idtratamiento,idmedico, fecha_inicio, fecha_fin,estado
+    const id = req.body.id;
+    const idpaciente = req.body.idpaciente;
+    const idtratamiento = req.body.idtratamiento;
+    const idmedico = req.body.idmedico;
+    const fecha_inicio=req.body.fecha_inicio;
+    const fecha_fin=req.body.fecha_fin;
+    const estado=req.body.estado;
+    const pacienteTratamiento = new PacienteTratamiento(id, idpaciente, idtratamiento, idmedico,fecha_inicio,fecha_fin,estado);
+    // asignar paciente tratamiento
+    if (id == undefined || id == 0 || id == "0") {
+        await ctrlUsuario.adicionarPacienteTratamiento(pacienteTratamiento);
+        res.redirect('/pacientes/read');
+    } else {
+        await ctrlUsuario.modificarPacienteTratamiento(id, pacienteTratamiento);
+        res.redirect('/paciente/tratamiento/read/'+idpaciente);
+    }
+});
+//ver tratamientos asignados
+router.get('/paciente/tratamiento/read/:id', async (req,res)=>{
+    const idpaciente = req.params.id;
+    try{
+        const tratamientosAsignados= await ctrlUsuario.getAllTratamientosAsignados(idpaciente);
+        const paciente=await ctrlUsuario.getByIdPaciente(idpaciente);
+        const tratamientos=await ctrlUsuario.getAllTratamientos();
+        const medicos=await ctrlUsuario.getAllMedicos();
+        res.render('read_pacienteTratamiento',{tratamientosAsignados:tratamientosAsignados,paciente:paciente,tratamientos:tratamientos,medicos:medicos});
+    }catch (error) {
+        console.error('No existen tratamientos asociados: ', error);
+        res.status(500).send('No existen tratamientos asociados');
+    }
+});
+//eliminar tratamientosAsignados
+router.get('/paciente/tratamiento/delete/:id/:idpaciente', async (req, res) => {
+    const id = req.params.id;
+    const idpaciente=req.params.idpaciente;
+    try {
+        await ctrlUsuario.eliminarPacienteTratamiento(id);
+        res.redirect('/paciente/tratamiento/read/'+idpaciente);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error');
+    }
+});
+//edit
+router.get('/paciente/tratamiento/edit/:id/:idpaciente', async (req, res) => {
+    const id = req.params.id;
+    const idpaciente=req.params.idpaciente;
+    try {
+        const tratamientoAsignado= await ctrlUsuario.getByIdPacienteTratamiento(id);
+        const paciente= await ctrlUsuario.getByIdPaciente(idpaciente);
+        const tratamientos = await ctrlUsuario.getAllTratamientos();
+        const medicos=await ctrlUsuario.getAllMedicos();
+        res.render("edit_pacienteTratamiento", { tratamientoAsignado: tratamientoAsignado,paciente:paciente,tratamientos:tratamientos,medicos:medicos });
+    }catch(error){
+        console.error(error);
+        res.status(500).send('Error al editar paciente tratamiento');
+    }
+});
+// Visualizar tratamiento del paciente
+router.get('/paciente/tratamientoAsignado/read/:id', async (req,res)=>{
+    const id=req.params.id;
+    try{
+        const paciente=await ctrlUsuario.getPaciente(id);
+        const tratamientosAsignados=await ctrlUsuario.getAllTratamientosAsignados(paciente.id);
+        const tratamientos=await ctrlUsuario.getAllTratamientos();
+        const medicos=await ctrlUsuario.getAllMedicos();
+        res.render('read_tratamientosAsignados',{paciente:paciente,tratamientos:tratamientos,tratamientosAsignados:tratamientosAsignados,medicos:medicos});
+    }catch(error){
+        console.error(error);
+        res.status(500).send('Error al visualizar tratamiento');
+    }
+});
 
 //await y async en las rutas que esperan resultados

@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proyect</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Modificar Tratamiento</div>
+    </div>
+    <div class="container">
+        <div class="login_box2">
+            <div class="text1">Modificar</div>
+            <form action="/paciente/tratamiento/save" method="post">
+                <div>
+                    <label class="text2" for="id"></label><br>
+                    <input class="itext2" type="hidden" id="id" name="id" value="<%=tratamientoAsignado.id %>">
+                    <label class="text2" for="nombreApellido">Paciente: </label>
+                    <input class="itext1" type="text" id="nombreyApellido" readonly
+                        value="<%=paciente.nombre + ' ' + paciente.apellidos%>">
+                    <input type="hidden" name="idpaciente" value="<%=paciente.id%>">
+                    <label class="text2" for="idtratamiento">Tratamiento: </label>
+                    <select name="idtratamiento" class="itext1">
+                        <% tratamientos.forEach(tratamiento => { %>
+                            <option value="<%= tratamiento.id %>" <% if(tratamiento.id == tratamientoAsignado.idtratamiento) { %>selected <%}%> >
+                                <%= tratamiento.nombre %>
+                            </option>
+                        <% }); %>
+                    </select>                    
+                    <label class="text2" for="idmedico">Medico: </label>
+                    <select name="idmedico" class="itext1">
+                        <% medicos.forEach(medico=> { %>
+                            <option value="<%=medico.id%>" <% if(medico.id== tratamientoAsignado.idmedico) {%>selected<%}%>>
+                                <%= medico.nombre+' '+medico.apellidos%>
+                            </option>
+                        <% });%>
+                        </select><br>
+                        <label class="text2" for="fecha_inicio">Fecha de Inicio</label>
+                        <input class="itext1" type="date" name="fecha_inicio" placeholder="" value="<%=tratamientoAsignado.fecha_inicio%>"> 
+                        <label class="text2" for="fecha_fin">Fecha de conclusion</label>
+                        <input class="itext1" type="date" name="fecha_fin" placeholder="" value="<%=tratamientoAsignado.fecha_fin%>" >
+                        <label class="text2" for="estado">Estado: </label>
+                        <select name="estado" class="itext1">
+                            <option value="programado" <% if(tratamientoAsignado.estado == "programado") { %>selected<% } %> >Programado</option>
+                            <option value="en progreso" <% if(tratamientoAsignado.estado == "en progreso") { %>selected<% } %>>En progreso</option>
+                            <option value="completado" <% if(tratamientoAsignado.estado == "completado") { %>selected<% } %>>Completado</option>
+                            <option value="cancelado" <% if(tratamientoAsignado.estado == "cancelado") { %>selected<% } %>>Cancelado</option>
+                            <option value="pendiente" <% if(tratamientoAsignado.estado == "pendiente") { %>selected<% } %>>Pendiente</option>
+                            <option value="reprogramado" <% if(tratamientoAsignado.estado == "reprogramado") { %>selected<% } %>>Reprogramado</option>
+                            <option value="no iniciado" <% if(tratamientoAsignado.estado == "no iniciado") { %>selected<% } %>>No iniciado</option>
+                        </select>
+                    </div>
+                    <div><input class="btn1" type="submit" value="Modificar Tratamiento">
+                        &nbsp;&nbsp;&nbsp;
+                    <a href="/paciente/tratamiento/read/<%=paciente.id%>" class="btn1">Cancelar</a></div>
+                </form>
+            </div>
+        </div>
+</body>
+</html>

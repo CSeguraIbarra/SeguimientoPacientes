@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">ASIGNAR TRATAMIENTO</div>
+    </div>
+    <div class="container">
+        <div class="login_box2">
+            <div class="text1">Tratamiento</div>
+            <form action="/paciente/tratamiento/save" method="post">
+
+                <div>
+                    <label class="text2" for="nombreApellido">Paciente: </label>
+                    <input class="itext1" type="text" id="nombreyApellido" readonly
+                        value="<%=paciente.nombre + ' ' + paciente.apellidos%>">
+                    <input type="hidden" name="idpaciente" value="<%=paciente.id%>">
+                    <label class="text2" for="idtratamiento">Tratamiento: </label>
+                    <select name="idtratamiento" class="itext1">
+                        <% tratamientos.forEach(tratamiento=> { %>
+                        <option value="<%=tratamiento.id%>"><%= tratamiento.nombre%></option>
+                        <% });%>
+                    </select>
+                    <label class="text2" for="idmedico">Medico: </label>
+                    <select name="idmedico" class="itext1">
+                        <% medicos.forEach(medico=> { %>
+                        <option value="<%=medico.id%>"><%= medico.nombre+' '+medico.apellidos%></option>
+                        <% });%>
+                    </select><br>
+                    <label class="text2" for="fecha_inicio">Fecha de Inicio</label>
+                    <input class="itext1" type="date" name="fecha_inicio" placeholder="">
+                    <label class="text2" for="fecha_fin">Fecha de conclusion</label>
+                    <input class="itext1" type="date" name="fecha_fin" placeholder="">
+                    <label class="text2" for="estado">Estado: </label>
+                    <select name="estado" class="itext1">
+                        <option value="programado">Programado</option>
+                        <option value="en progreso">En progreso</option>
+                        <option value="completado">Completado</option>
+                        <option value="cancelado">Cancelado</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="reprogramado">Reprogramado</option>
+                        <option value="no iniciado">No iniciado</option>
+                    </select>
+                </div>
+                <div><input class="btn1" type="submit" value="Asignar Tratamiento"></div>
+            </form>
+            <br>
+        </div>
+</body>
+
+</html>

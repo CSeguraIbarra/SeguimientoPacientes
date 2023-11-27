@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Tratamientos Asignados</div>
+    </div>
+    <div class="container">
+        <div class="content3">
+            <div class="text1">
+                <%=paciente.nombre+' '+paciente.apellidos%></div>
+            <div>
+                <table class="table1">
+                    <thead>
+                        <tr>
+                            <th>Tratamiento</th>
+                            <th>Fecha de inicio</th>
+                            <th>Fecha de conclusión</th>
+                            <th>Descripcion del tratamiento</th>
+                            <th>Observaciones</th>
+                            <th>Estado</th>
+                            <th>Medico</th>
+                            <th>Especialidad del medico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% tratamientosAsignados.forEach(tratamientoAsignado => { %>
+                            <tr>
+                                <td>
+                                    <% tratamientos.forEach(tratamiento => {
+                                        if (tratamiento.id == tratamientoAsignado.idtratamiento) {%> 
+                                            <%= tratamiento.nombre%> 
+                                    <%}
+                                    }); %>
+                                </td>
+                                <td>
+                                    <%= tratamientoAsignado.fecha_inicio %>
+                                </td>
+                                <td>
+                                    <%= tratamientoAsignado.fecha_fin %>
+                                </td>
+                                <td>
+                                    <% tratamientos.forEach(tratamiento => {
+                                        if (tratamiento.id == tratamientoAsignado.idtratamiento) {%> 
+                                            <%= tratamiento.descripcion%> 
+                                    <%}
+                                    }); %>
+                                </td>
+                                <td>
+                                    <% tratamientos.forEach(tratamiento => {
+                                        if (tratamiento.id == tratamientoAsignado.idtratamiento) {%> 
+                                            <%= tratamiento.observaciones%> 
+                                    <%}
+                                    }); %>
+                                </td>
+                                <td>
+                                    <%= tratamientoAsignado.estado %>
+                                </td>
+                                <td>
+                                    <% medicos.forEach(medico => {
+                                        if (medico.id == tratamientoAsignado.idmedico) {%> 
+                                            <%= medico.nombre + ' ' + medico.apellidos %> 
+                                            <%}
+                                    }); %>
+                                </td>
+                                <td>
+                                    <% medicos.forEach(medico => {
+                                        if (medico.id == tratamientoAsignado.idmedico) {%> 
+                                            <%= medico.especialidad%> 
+                                            <%}
+                                    }); %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>                             
+            </div>
+        </div>

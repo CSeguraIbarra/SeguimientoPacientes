@@ -12,14 +12,13 @@
     <div class="header">
         <div class="title">Modificar Tratamiento</div>
     </div>
-    <% if (tratamiento){%>
         <div class="container">
             <div class="login_box2">
                 <div class="text1">Modificar</div>
                 <form action="/tratamientos/save" method="post">
                     <div>
-                        <label class="text2" for="id">Id</label><br>
-                        <input class="itext2" type="number" id="id" name="id" value="<%=tratamiento.id %>"
+                        <label class="text2" for="id"></label><br>
+                        <input class="itext2" type="hidden" id="id" name="id" value="<%=tratamiento.id %>"
                             readonly>
                         <div>
                             <label class="text2" for="nombre">Nombre de tratamiento</label><br>
@@ -42,7 +41,5 @@
                 </form>
             </div>
         </div>
-        <% }%>
 </body>
-
 </html>

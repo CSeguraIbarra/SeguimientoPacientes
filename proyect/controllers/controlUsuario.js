@@ -195,6 +195,7 @@ class ControlUsuario {
             });
         });
     }
+    //buscar paciente por el id usuario
     async getPaciente(idusuario) {
         const pacientes = await this.getAllPacientes();
         const paciente = pacientes.find(p => p.idusuario == idusuario);
@@ -202,6 +203,27 @@ class ControlUsuario {
             return paciente;
         } else {
             throw new Error("No se encontró el paciente");
+        }
+    }
+    //buscar paciente por el id
+    async getByIdPaciente(id) {
+        const pacientes = await this.getAllPacientes();
+        const paciente = pacientes.find(p => p.id == id);
+        if (paciente) {
+            return paciente;
+        } else {
+            throw new Error("No se encontró el paciente");
+        }
+    }
+    //buscar usuario asociado al paciente
+    async getUserAsociado(id){
+        const usuarios=await this.getAllUsuarios();
+        const paciente=await this.getByIdPaciente(id);
+        const usuario=await usuarios.find(u => u.id==paciente.id);
+        if(usuario){
+            return paciente;
+        }else{
+            throw new Error("No se encontró el usuario asociado al id");
         }
     }
 
@@ -245,9 +267,9 @@ class ControlUsuario {
         return this.db.addPacienteTratamiento(pacienteTratamiento);
     }
 
-    async getAllPacientesTratamientos() {
+    async getAllPacienteTratamientos() {
         return new Promise((resolve, reject) => {
-            this.db.getAllPacientesTratamientos((pacientesTratamientos) => {
+            this.db.getAllPacienteTratamientos((pacientesTratamientos) => {
                 if (pacientesTratamientos) {
                     resolve(pacientesTratamientos);
                 } else {
@@ -257,7 +279,7 @@ class ControlUsuario {
         });
     }
 
-    async updatePacienteTratamiento(id, pacienteTratamiento) {
+    async modificarPacienteTratamiento(id, pacienteTratamiento) {
         try {
             await this.db.updatePacienteTratamiento(id, pacienteTratamiento);
             console.log("Paciente_tratamiento actualizado con éxito");
@@ -266,7 +288,7 @@ class ControlUsuario {
         }
     }
 
-    async deletePacienteTratamiento(id) {
+    async eliminarPacienteTratamiento(id) {
         try {
             await this.db.deletePacienteTratamiento(id);
             console.log("Paciente_tratamiento eliminado con éxito");
@@ -274,8 +296,25 @@ class ControlUsuario {
             throw error;
         }
     }
-
-
+    async getAllTratamientosAsignados(idpaciente){
+        const pacienteTratamientos = await this.getAllPacienteTratamientos();
+        const tratamientosAsignados = pacienteTratamientos.filter(pt => pt.idpaciente == idpaciente);
+        
+        if (tratamientosAsignados.length>0) {
+            return tratamientosAsignados;
+        } else {
+            throw new Error("No se encontraron los tratamientos asignados al paciente");
+        }
+    }
+    async getByIdPacienteTratamiento(id) {
+        const pacienteTratamientos = await this.getAllPacienteTratamientos();
+        const pacienteTratamiento = pacienteTratamientos.find(pt => pt.id == id);
+        if (pacienteTratamiento) {
+            return pacienteTratamiento;
+        } else {
+            throw new Error("No se encontró el tratamiento asociado");
+        }
+    }
 }
 
 module.exports = ControlUsuario;
