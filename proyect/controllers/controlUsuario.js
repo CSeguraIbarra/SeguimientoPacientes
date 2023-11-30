@@ -133,8 +133,8 @@ class ControlUsuario {
         req.session.destroy();
     }
 
-    async getLastInsertedUserID() {
-        return this.db.getLastInsertedUserID(); 
+    async getUserInsertID() {
+        return this.db.getUserInsertID(); 
     }
 
     // CRUD para médicos

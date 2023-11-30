@@ -12,7 +12,12 @@ const ctrlUsuario = new ControlUsuario();
 //ctrlUsuario.cargarUsuarios();
 //ctrlUsuario.limpiarTabla('medicos');
 //ctrlUsuario.limpiarTabla('pacientes');
-//ctrlUsuario.eliminarTabla('paciente_tratamiento');
+
+/*ctrlUsuario.eliminarTabla('paciente_tratamiento');
+ctrlUsuario.eliminarTabla('medicos');
+ctrlUsuario.eliminarTabla('pacientes');
+ctrlUsuario.eliminarTabla('tratamientos');*/
+
 //const estampa = new Date();
 //const admin=new Usuario(1,'admin.png','Cristhian','kiensab5','12345','seguraibarracristhian@gmail.com','admin',estampa);
 //ctrlUsuario.adicionarUsuario(admin);
@@ -166,18 +171,18 @@ router.post('/usuarios/save', async (req, res) => {
         await ctrlUsuario.adicionarUsuario(usuario);
 
         // Recuperar el último ID insertado
-        const lastUserID = await ctrlUsuario.getLastInsertedUserID();
+        const UserID = await ctrlUsuario.getUserInsertID();
 
         // Añadir el médico o paciente con el ID del usuario
         if (rol == 'medico') {
             const especialidad = req.body.especialidad;
-            const medico = new Medico(0, lastUserID, nombre, apellidos, especialidad);
+            const medico = new Medico(0, UserID, nombre, apellidos, especialidad);
             await ctrlUsuario.adicionarMedico(medico);
         } else if (rol == 'paciente') {
             const fecha_nacimiento = req.body.fecha_nacimiento;
             const sexo = req.body.sexo;
             const telefono = req.body.telefono;
-            const paciente = new Paciente(0, lastUserID, nombre, apellidos, fecha_nacimiento, sexo, telefono);
+            const paciente = new Paciente(0, UserID, nombre, apellidos, fecha_nacimiento, sexo, telefono);
             await ctrlUsuario.adicionarPaciente(paciente);
         }
 

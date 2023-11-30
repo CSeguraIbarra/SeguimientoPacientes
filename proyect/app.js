@@ -3,7 +3,7 @@ const express = require("express");
 const session = require('express-session');
 const path = require('path');
 const app = express();
-
+//establecer el manejo de sesiones
 app.use(session({
     secret: 'K1en54b5', 
     resave: false,

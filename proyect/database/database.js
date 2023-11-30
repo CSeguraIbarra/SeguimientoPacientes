@@ -263,7 +263,6 @@ class Database {
                 console.log(err.message);
             } else {
                 console.log("Registro paciente_tratamiento eliminado con éxito");
-                // Puedes agregar la lógica adicional si es necesario
             }
         });
     }
@@ -304,14 +303,14 @@ class Database {
     }
 
     //recuperar el id del usuario
-    getLastInsertedUserID() {
-        const query = 'SELECT last_insert_rowid() as id';
+    getUserInsertID() {
+        const query = 'SELECT id FROM usuario ORDER BY id DESC LIMIT 1';
         return new Promise((resolve, reject) => {
             this.db.get(query, (err, row) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(row.id);
+                    resolve(row ? row.id : null);
                 }
             });
         });
